@@ -1,20 +1,26 @@
-import React from "react";
 import ScoreGauge from "./ScoreGauge";
 import ScoreBadge from "./ScoreBadge";
 
+
+const to100 = (n) => {
+    const x = Number(n ?? 0);
+    const scaled = x <= 10 ? x * 10 : x;
+    return Math.max(0, Math.min(100, Math.round(scaled)));
+};
+
 const Category = ({ title, score }) => {
-    const textColor =
-        score > 70 ? "text-green-600" : score > 49 ? "text-yellow-600" : "text-red-600";
+    const s = to100(score);
+    const textColor = s > 70 ? "text-green-600" : s > 49 ? "text-yellow-600" : "text-red-600";
 
     return (
         <div className="resume-summary">
             <div className="category">
                 <div className="flex flex-row gap-2 items-center justify-center">
                     <p className="text-2xl">{title}</p>
-                    <ScoreBadge score={score} />
+                    <ScoreBadge score={s} />
                 </div>
                 <p className="text-2xl">
-                    <span className={textColor}>{score}/100</span>
+                    <span className={textColor}>{s}/100</span>
                 </p>
             </div>
         </div>
@@ -22,11 +28,13 @@ const Category = ({ title, score }) => {
 };
 
 const Summary = ({ score, feedback }) => {
+    const overall = to100(score);
+
     return (
         <div className="resume-summary">
             <div className="category">
                 <div className="flex flex-row gap-2 items-center justify-center">
-                    <ScoreGauge score={score} />
+                    <ScoreGauge score={overall} />
                 </div>
                 <div>
                     <p className="text-sm text-gray-500">

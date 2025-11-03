@@ -1,33 +1,28 @@
-let pdfjsLib = null;
-let isLoading = false;
-let loadPromise = null;
+// src/lib/pdf2img.js
 
-async function loadPdfJs() {
-    if (pdfjsLib) return pdfjsLib;
-    if (loadPromise) return loadPromise;
+// 1) Import ESM della libreria e del worker come URL (gestito da Vite)
+import * as pdfjsLib from "pdfjs-dist/build/pdf.mjs";
+import workerSrc from "pdfjs-dist/build/pdf.worker.min.mjs?url";
 
-    isLoading = true;
-    // eslint-disable-next-line
-    loadPromise = import("pdfjs-dist/build/pdf.mjs").then((lib) => {
-        // Set the worker source to use local file
-        lib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
-        pdfjsLib = lib;
-        isLoading = false;
-        return lib;
-    });
+// 2) Dì a PDF.js dove trovare il worker emesso da Vite
+pdfjsLib.GlobalWorkerOptions.workerSrc = workerSrc;
 
-    return loadPromise;
-}
-
+// 3) Funzione di conversione: identica alla tua API pubblica
 export async function convertPdfToImage(file) {
     try {
-        const lib = await loadPdfJs();
-
+        // Leggi il PDF come ArrayBuffer
         const arrayBuffer = await file.arrayBuffer();
-        const pdf = await lib.getDocument({ data: arrayBuffer }).promise;
+
+        // Carica il documento con la stessa istanza di pdfjsLib
+        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+
+        // Prima pagina
         const page = await pdf.getPage(1);
 
+        // Viewport (riduci a 3 se file molto pesanti)
         const viewport = page.getViewport({ scale: 4 });
+
+        // Canvas di rendering
         const canvas = document.createElement("canvas");
         const context = canvas.getContext("2d");
 
@@ -39,13 +34,14 @@ export async function convertPdfToImage(file) {
             context.imageSmoothingQuality = "high";
         }
 
+        // Render della pagina sul canvas
         await page.render({ canvasContext: context, viewport }).promise;
 
+        // Esporta PNG dal canvas
         return new Promise((resolve) => {
             canvas.toBlob(
                 (blob) => {
                     if (blob) {
-                        // Create a File from the blob with the same name as the PDF
                         const originalName = file.name.replace(/\.pdf$/i, "");
                         const imageFile = new File([blob], `${originalName}.png`, {
                             type: "image/png",
@@ -64,7 +60,7 @@ export async function convertPdfToImage(file) {
                     }
                 },
                 "image/png",
-                1.0 // quality
+                1.0
             );
         });
     } catch (err) {

@@ -52,12 +52,11 @@ const FileUploader = ({ onFileSelect }) => {
             {/* Box */}
             <div
                 {...getRootProps()}
-                className={[
-                    "border-2 border-dashed rounded-2xl p-6 sm:p-10 cursor-pointer transition",
-                    "bg-white hover:bg-gray-50",
-                    isDragActive ? "border-blue-500" : "border-gray-300",
-                    isDragReject || errorMsg ? "border-red-400" : "",
-                ].join(" ")}
+                className={
+                    `uploader-drag-area` +
+                    (isDragActive ? " is-drag-active" : "") +
+                    ((isDragReject || errorMsg) ? " is-drag-reject" : "")
+                }
             >
                 <input {...getInputProps()} />
 

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../components/Navbar";
 import ResumeCard from "../components/ResumeCard";
 import { usePuterStore } from "../lib/puter";
 import { Link, useNavigate } from "react-router-dom";
@@ -17,37 +16,30 @@ export default function Home() {
   useEffect(() => {
     const loadResumes = async () => {
       setLoadingResumes(true);
-
       const resumes = await kv.list("resume:*", true);
-
-      const parsedResumes = resumes?.map((resume) =>
-        JSON.parse(resume.value)
-      );
-
+      const parsedResumes = resumes?.map((resume) => JSON.parse(resume.value));
       setResumes(parsedResumes || []);
       setLoadingResumes(false);
     };
-
     loadResumes();
   }, []);
 
   return (
-    <main className="bg-[url('/images/bg-main.svg')] bg-cover">
-
+    <main className="home">
 
       <section className="main-section">
-        <div className="page-heading py-16">
-          <h1>Track Your Applications & Resume Ratings</h1>
+        <div className="page-heading home-heading">
+          <h1>Tieni traccia dei tuoi cv e il loro rating</h1>
           {!loadingResumes && resumes?.length === 0 ? (
-            <h2>No resumes found. Upload your first resume to get feedback.</h2>
+            <h2>Nessun cv trovato. Upload il tuo primo cv per un feedback.</h2>
           ) : (
             <h2>Review your submissions and check AI-powered feedback.</h2>
           )}
         </div>
 
         {loadingResumes && (
-          <div className="flex flex-col items-center justify-center">
-            <img src="/images/resume-scan-2.gif" className="w-[200px]" />
+          <div className="loading-box">
+            <img src="/images/resume-scan-2.gif" alt="loading" />
           </div>
         )}
 
@@ -60,8 +52,8 @@ export default function Home() {
         )}
 
         {!loadingResumes && resumes?.length === 0 && (
-          <div className="flex flex-col items-center justify-center mt-10 gap-4">
-            <Link to="/upload" className="primary-button w-fit text-xl font-semibold">
+          <div className="upload-box">
+            <Link to="/upload" className="primary-button upload-btn">
               Upload Resume
             </Link>
           </div>

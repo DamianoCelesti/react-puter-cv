@@ -1,52 +1,58 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { usePuterStore } from "../lib/puter";
 
 const Navbar = () => {
+    const navigate = useNavigate();
     const { auth, isLoading } = usePuterStore();
+
+    const handleLogout = async () => {
+        try {
+            await auth.signOut();
+        } finally {
+            navigate("/auth?next=/");
+        }
+    };
 
     return (
         <nav className="navbar">
             <Link to="/">
-                <p className="text-2xl font-bold text-gradient">RESUMIND</p>
+                <p className="text-gradient">RESUME</p>
             </Link>
 
-            <div className="flex items-center gap-3">
+            <div className="nav-right">
                 {/* Badge stato login */}
                 <span
-                    className={[
-                        "px-3 py-1 rounded-full text-sm font-medium",
+                    className={
+                        "score-badge " +
+                        (isLoading ? "neutral" : auth.isAuthenticated ? "green" : "red")
+                    }
+                    title={
                         isLoading
-                            ? "bg-gray-100 text-gray-700"
+                            ? "Verifica in corso…"
                             : auth.isAuthenticated
-                                ? "bg-green-100 text-green-700"
-                                : "bg-amber-100 text-amber-700",
-                    ].join(" ")}
-                    title={isLoading ? "Checking session..." : auth.isAuthenticated ? "Logged in" : "Not logged in"}
+                                ? "Logged in"
+                                : "Not logged in"
+                    }
                 >
-                    {isLoading ? "Verifica in corso…" : auth.isAuthenticated ? `@${auth.user?.username}` : "Non loggato"}
+                    {isLoading
+                        ? "Verifica in corso…"
+                        : auth.isAuthenticated
+                            ? `@${auth.user?.username ?? "user"}`
+                            : "Non loggato"}
                 </span>
 
-                {/* Pulsante log in/out */}
-                {isLoading ? null : auth.isAuthenticated ? (
-                    <button
-                        onClick={auth.signOut}
-                        className="border px-3 py-2 rounded-lg hover:bg-gray-100"
-                    >
-                        Log Out
-                    </button>
-                ) : (
-                    <Link to="/auth?next=/">
-                        <button className="border px-3 py-2 rounded-lg hover:bg-gray-100">
-                            Log In
+                {/* Log In / Log Out */}
+                {!isLoading &&
+                    (auth.isAuthenticated ? (
+                        <button onClick={handleLogout} className="primary-button logout-button">
+                            Log Out
                         </button>
-                    </Link>
-                )}
-
-                {/* Tasto upload già presente */}
-                <Link to="/upload" className="primary-button w-fit">
-                    Upload Resume
-                </Link>
+                    ) : (
+                        <Link to="/auth?next=/" className="primary-button">
+                            Log In
+                        </Link>
+                    ))}
             </div>
         </nav>
     );
