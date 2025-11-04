@@ -44,7 +44,7 @@ const ATS = ({ score, suggestions = [] }) => {
       </div>
 
       <p className="ats-note">
-        Keep refining your resume to boost your chances of clearing ATS filters.
+        Continua a perfezionare il tuo CV per aumentare le probabilità che venga accettato dai sistemi di selezione automatica (ATS).
       </p>
     </div>
   );

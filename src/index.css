@@ -553,6 +553,296 @@ textarea:focus {
   margin: 0 auto;
 }
 
+/* ====== DARK MODE ====== */
+
+
+
+.dark .primary-button {
+  background: linear-gradient(to bottom, #6366f1, #4338ca);
+}
+
+
+
+/* ====== BUTTON DARK MODE ====== */
+
+.theme-toggle {
+  border: none;
+  background: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-right: .5rem;
+  transition: transform .2s ease;
+}
+
+
+
+
+/* ====== DARK MODE (GLOBAL) ====== */
+.dark {
+  background: #0b1020;
+  /* body */
+  color: #e6e8ef;
+}
+
+.dark body {
+  background: #0b1020;
+  color: #e6e8ef;
+}
+
+/* Transizioni morbide */
+* {
+  transition: background-color .25s ease, color .25s ease, border-color .25s ease;
+}
+
+/* --- Layout base --- */
+.dark main {
+  background: transparent;
+}
+
+.dark h1 {
+  -webkit-text-fill-color: initial;
+  color: #c7d2fe;
+}
+
+.dark h2,
+.dark label {
+  color: #cbd5e1;
+}
+
+/* --- Navbar --- */
+.dark .navbar {
+  background: #151b2e;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, .45);
+  border: 1px solid #24304d;
+}
+
+.dark .text-gradient {
+  background: linear-gradient(90deg, #c7b8ff, #e2e8f0, #9cc1ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* --- Bottoni --- */
+.dark .primary-button,
+.dark .auth-button {
+  background: linear-gradient(to bottom, #5b6ef7, #3e4edd);
+  color: #f8fafc;
+}
+
+.dark .primary-button:hover,
+.dark .auth-button:hover {
+  background: linear-gradient(to bottom, #7282ff, #5363f0);
+}
+
+.dark .logout-button {
+  color: #fff;
+}
+
+/* --- Badge login / score --- */
+.dark .score-badge {
+  background: #141a2a;
+  border: 1px solid #27314f;
+  color: #dbe5ff;
+}
+
+.dark .score-badge.green {
+  background: #10392f;
+  color: #b7fbe6;
+}
+
+.dark .score-badge.yellow {
+  background: #3b2f12;
+  color: #ffeab2;
+}
+
+.dark .score-badge.red {
+  background: #3a1615;
+  color: #ffc4c0;
+}
+
+.dark .score-badge.neutral {
+  background: #1b2238;
+  color: #c7d2fe;
+}
+
+/* --- Sezioni pagina --- */
+.dark .main-section {
+  background: transparent;
+}
+
+.dark .page-heading h1 {
+  color: #c7d2fe;
+}
+
+.dark .page-heading h2 {
+  color: #aab6d6;
+}
+
+/* --- Cards / grid --- */
+.dark .resume-card {
+  background: #12182a;
+  border: 1px solid #27314f;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, .5);
+  color: #e6e8ef;
+}
+
+.dark .resume-card:hover {
+  transform: translateY(-5px);
+}
+
+/* --- Riquadri generici --- */
+.dark .category {
+  background: #0f1527;
+  border-color: #233055;
+}
+
+.dark .resume-summary .text-gray-500,
+.dark .text-gray-500 {
+  color: #9aa5c6 !important;
+}
+
+/* --- Cerchio e gauge punteggio --- */
+.dark .score-circle {
+  background: radial-gradient(circle at 30% 30%, #151b2e, #11172a);
+}
+
+.dark .score-text {
+  color: #e6e8ef;
+}
+
+/* --- Form --- */
+.dark input,
+.dark textarea {
+  background: #0f1527;
+  color: #e6e8ef;
+  border: 1px solid #263356;
+  box-shadow: inset 0 0 8px rgba(98, 114, 255, .12);
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #7c8bb3;
+}
+
+.dark input:focus,
+.dark textarea:focus {
+  border-color: #6f7aff;
+}
+
+/* --- File Uploader --- */
+.dark .uploader-drag-area {
+  background: #0f1527;
+  border-color: #2a3861;
+}
+
+.dark .uploader-drag-area:hover {
+  background: #111a33;
+  border-color: #6f7aff;
+}
+
+.dark .uploader-selected-file {
+  background: #121a31;
+}
+
+.dark .uploader-drag-area .text-gray-600 {
+  color: #cfd6ec;
+}
+
+.dark .uploader-drag-area .text-gray-500 {
+  color: #9aa5c6;
+}
+
+.dark .text-red-600 {
+  color: #ffb4b4 !important;
+}
+
+/* --- Resume page (preview + nav) --- */
+.dark .resume-nav {
+  background: #12182a;
+  border-color: #2b375d;
+}
+
+.dark .back-button {
+  background: #0f1527;
+  border-color: #253257;
+  color: #d6dcf3;
+}
+
+.dark .gradient-border {
+  background: linear-gradient(135deg, #5563f6, #4252e2, #9aa3dc);
+}
+
+.dark .gradient-border>* {
+  background: #0f1527;
+}
+
+/* --- Accordion / Details --- */
+.dark .border {
+  border-color: #28355a !important;
+}
+
+.dark .bg-white {
+  background: #10162a !important;
+}
+
+.dark .hover\:bg-gray-50:hover {
+  background: #0f1527 !important;
+}
+
+.dark .text-green-700 {
+  color: #6ee7b7 !important;
+}
+
+.dark .text-yellow-700 {
+  color: #fde68a !important;
+}
+
+.dark .text-red-700 {
+  color: #fca5a5 !important;
+}
+
+.dark .bg-green-50 {
+  background: rgba(16, 57, 47, .35) !important;
+}
+
+.dark .bg-yellow-50 {
+  background: rgba(59, 47, 18, .35) !important;
+}
+
+.dark .border-green-200 {
+  border-color: #1b6b58 !important;
+}
+
+.dark .border-yellow-200 {
+  border-color: #6b561b !important;
+}
+
+/* --- ATS box --- */
+.dark .to-white {
+  background-image: none !important;
+}
+
+.dark .from-green-100 {
+  background: #0f2b22 !important;
+}
+
+.dark .from-amber-100 {
+  background: #2b2310 !important;
+}
+
+/* --- Link “Upload Resume” vuoto --- */
+.dark a.primary-button {
+  color: #fff;
+}
+
+/* --- Piccoli extra --- */
+.dark .resume-nav .text-sm {
+  color: #cfd6ec;
+}
+
+.dark .back-button img {
+  filter: brightness(0) invert(1);
+}
 
 
 @media (max-width: 1024px) {

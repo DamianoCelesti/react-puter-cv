@@ -1,13 +1,13 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "./components/Navbar.jsx";
 import { useEffect } from "react";
-import { usePuterStore } from "./lib/puter"; // ⬅️ nuovo import
+import { usePuterStore } from "./lib/puter";
 
 export default function App() {
-  const { init } = usePuterStore();          // ⬅️ usa lo store
+  const { init } = usePuterStore();
 
   useEffect(() => {
-    init();                                  // ⬅️ inizializza Puter (carica window.puter, checkAuth, ecc.)
+    init();
   }, [init]);
 
   return (

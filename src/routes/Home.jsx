@@ -36,7 +36,7 @@ export default function Home() {
           )}
         </div>
 
-        {/* ✅ Bottone "Nuova review" sempre visibile */}
+
         <div className="new-review-btn-box">
           <Link to="/upload" className="primary-button">
             Nuova review

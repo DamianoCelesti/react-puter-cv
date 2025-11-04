@@ -1,10 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { usePuterStore } from "../lib/puter";
 
 const Navbar = () => {
     const navigate = useNavigate();
     const { auth, isLoading } = usePuterStore();
+    const [darkMode, setDarkMode] = useState(false);
+
+    // Legge il tema salvato al primo avvio
+    useEffect(() => {
+        const saved = localStorage.getItem("theme");
+        if (saved === "dark") {
+            setDarkMode(true);
+            document.documentElement.classList.add("dark");
+        }
+    }, []);
+
+    // Funzione per cambiare tema
+    const toggleTheme = () => {
+        const newTheme = !darkMode;
+        setDarkMode(newTheme);
+        document.documentElement.classList.toggle("dark", newTheme);
+        localStorage.setItem("theme", newTheme ? "dark" : "light");
+    };
 
     const handleLogout = async () => {
         try {
@@ -21,6 +39,15 @@ const Navbar = () => {
             </Link>
 
             <div className="nav-right">
+                {/* Bottone tema */}
+                <button
+                    onClick={toggleTheme}
+                    className="theme-toggle"
+                    title={darkMode ? "Passa al tema chiaro" : "Passa al tema scuro"}
+                >
+                    {darkMode ? "🌙" : "☀️"}
+                </button>
+
                 {/* Badge stato login */}
                 <span
                     className={
