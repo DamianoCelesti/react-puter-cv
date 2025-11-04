@@ -26,7 +26,6 @@ export default function Home() {
 
   return (
     <main className="home">
-
       <section className="main-section">
         <div className="page-heading home-heading">
           <h1>Tieni traccia dei tuoi cv e il loro rating</h1>
@@ -35,6 +34,13 @@ export default function Home() {
           ) : (
             <h2>Review your submissions and check AI-powered feedback.</h2>
           )}
+        </div>
+
+        {/* ✅ Bottone "Nuova review" sempre visibile */}
+        <div className="new-review-btn-box">
+          <Link to="/upload" className="primary-button">
+            Nuova review
+          </Link>
         </div>
 
         {loadingResumes && (
