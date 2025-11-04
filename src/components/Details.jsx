@@ -1,4 +1,4 @@
-import React from "react";
+
 import { cn } from "../lib/utils";
 import {
   Accordion,
@@ -7,23 +7,28 @@ import {
   AccordionItem,
 } from "./Accordion";
 
-/**
- * Badge compatto per mostrare il punteggio di categoria.
- * @param {{ score: number }} props
- */
+// porta 0–10 a 0–100 (clamp a 0–100) ---
+const to100 = (n) => {
+  const x = Number(n ?? 0);
+  const scaled = x <= 10 ? x * 10 : x;
+  return Math.max(0, Math.min(100, Math.round(scaled)));
+};
+
+/** Badge compatto per mostrare il punteggio di categoria. */
 const ScoreBadge = ({ score }) => {
+  const s = to100(score);
   return (
     <div
       className={cn(
         "flex flex-row gap-1 items-center px-2 py-0.5 rounded-[96px]",
-        score > 69 ? "bg-badge-green" : score > 39 ? "bg-badge-yellow" : "bg-badge-red"
+        s > 69 ? "bg-badge-green" : s > 39 ? "bg-badge-yellow" : "bg-badge-red"
       )}
     >
       <img
         src={
-          score > 69
+          s > 69
             ? "/icons/check.svg"
-            : score > 39
+            : s > 39
               ? "/icons/warning.svg"
               : "/icons/warning.svg"
         }
@@ -33,23 +38,16 @@ const ScoreBadge = ({ score }) => {
       <p
         className={cn(
           "text-xs font-medium",
-          score > 69
-            ? "text-green-700"
-            : score > 39
-              ? "text-yellow-700"
-              : "text-red-700"
+          s > 69 ? "text-green-700" : s > 39 ? "text-yellow-700" : "text-red-700"
         )}
       >
-        {score}/100
+        {s}/100
       </p>
     </div>
   );
 };
 
-/**
- * Header di una categoria (titolo + badge punteggio).
- * @param {{ title: string, categoryScore: number }} props
- */
+/** Header di una categoria (titolo + badge punteggio). */
 const CategoryHeader = ({ title, categoryScore }) => {
   return (
     <div className="flex flex-row gap-4 items-center py-2">
@@ -59,10 +57,7 @@ const CategoryHeader = ({ title, categoryScore }) => {
   );
 };
 
-/**
- * Contenuto espanso di una categoria: elenco consigli e spiegazioni.
- * @param {{ tips: Array<{type: "good"|"improve", tip: string, explanation: string}> }} props
- */
+/** Contenuto espanso di una categoria: elenco consigli e spiegazioni. */
 const CategoryContent = ({ tips }) => {
   return (
     <div className="flex flex-col gap-4 items-center w-full">
@@ -108,17 +103,7 @@ const CategoryContent = ({ tips }) => {
   );
 };
 
-/**
- * Pannello dei dettagli con categorie a fisarmonica.
- * @param {{
- *   feedback: {
- *     toneAndStyle: { score: number, tips: Array<{type:"good"|"improve", tip:string, explanation:string}> },
- *     content:      { score: number, tips: Array<{type:"good"|"improve", tip:string, explanation:string}> },
- *     structure:    { score: number, tips: Array<{type:"good"|"improve", tip:string, explanation:string}> },
- *     skills:       { score: number, tips: Array<{type:"good"|"improve", tip:string, explanation:string}> },
- *   }
- * }} props
- */
+/** Pannello dei dettagli con categorie a fisarmonica. */
 const Details = ({ feedback }) => {
   return (
     <div className="flex flex-col gap-4 w-full">
@@ -128,7 +113,7 @@ const Details = ({ feedback }) => {
           <AccordionHeader itemId="tone-style">
             <CategoryHeader
               title="Tone & Style"
-              categoryScore={feedback.toneAndStyle.score}
+              categoryScore={to100(feedback.toneAndStyle.score)}
             />
           </AccordionHeader>
           <AccordionContent itemId="tone-style">
@@ -139,7 +124,10 @@ const Details = ({ feedback }) => {
         {/* Content */}
         <AccordionItem id="content">
           <AccordionHeader itemId="content">
-            <CategoryHeader title="Content" categoryScore={feedback.content.score} />
+            <CategoryHeader
+              title="Content"
+              categoryScore={to100(feedback.content.score)}
+            />
           </AccordionHeader>
           <AccordionContent itemId="content">
             <CategoryContent tips={feedback.content.tips} />
@@ -151,7 +139,7 @@ const Details = ({ feedback }) => {
           <AccordionHeader itemId="structure">
             <CategoryHeader
               title="Structure"
-              categoryScore={feedback.structure.score}
+              categoryScore={to100(feedback.structure.score)}
             />
           </AccordionHeader>
           <AccordionContent itemId="structure">
@@ -162,7 +150,10 @@ const Details = ({ feedback }) => {
         {/* Skills */}
         <AccordionItem id="skills">
           <AccordionHeader itemId="skills">
-            <CategoryHeader title="Skills" categoryScore={feedback.skills.score} />
+            <CategoryHeader
+              title="Skills"
+              categoryScore={to100(feedback.skills.score)}
+            />
           </AccordionHeader>
           <AccordionContent itemId="skills">
             <CategoryContent tips={feedback.skills.tips} />

@@ -482,3 +482,87 @@ textarea:focus {
 .accordion-content-inner {
   padding: 1rem 1.5rem;
 }
+
+
+/* ====== RESUME PREVIEW (limita dimensioni) ====== */
+.resume-preview-wrapper {
+  display: inline-block;
+  max-width: 100%;
+}
+
+.resume-preview-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: calc(100vh - 160px);
+  object-fit: contain;
+  border-radius: 1rem;
+}
+
+/* ====== RESUME PAGE LAYOUT CENTRATO ====== */
+.resume-page-wrapper {
+  display: flex;
+  justify-content: center;
+  /* centra tutto orizzontalmente */
+  align-items: flex-start;
+  /* allinea in alto i blocchi */
+  flex-wrap: wrap;
+  /* per mobile: va uno sotto l’altro */
+  gap: 2rem;
+  /* spazio tra immagine e testo */
+  max-width: 1200px;
+  /* limite centrale */
+  margin: 0 auto;
+  /* centra l'intero contenuto */
+  padding: 2rem;
+  /* spazio interno */
+  box-sizing: border-box;
+}
+
+.feedback-section {
+  flex: 1 1 500px;
+  /* ogni sezione prende metà spazio circa */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2rem;
+}
+
+/* ====== RESUME PAGE -  */
+.resume-page-vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+}
+
+
+.feedback-section--full {
+  width: 100%;
+  max-width: 1000px;
+}
+
+
+.review-section {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+
+
+@media (max-width: 1024px) {
+  .resume-page-wrapper {
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+  }
+
+  .feedback-section {
+    width: 100%;
+  }
+}

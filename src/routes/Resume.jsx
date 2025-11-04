@@ -18,30 +18,33 @@ const Resume = () => {
     }, [isLoading]);
 
     useEffect(() => {
+        let imgUrl, pdfUrl;
+
         const loadResume = async () => {
             const resume = await kv.get(`resume:${id}`);
-
             if (!resume) return;
 
             const data = JSON.parse(resume);
 
             const resumeBlob = await fs.read(data.resumePath);
             if (!resumeBlob) return;
-
             const pdfBlob = new Blob([resumeBlob], { type: "application/pdf" });
-            const resumeUrl = URL.createObjectURL(pdfBlob);
-            setResumeUrl(resumeUrl);
+            pdfUrl = URL.createObjectURL(pdfBlob);
+            setResumeUrl(pdfUrl);
 
             const imageBlob = await fs.read(data.imagePath);
             if (!imageBlob) return;
-            const imageUrl = URL.createObjectURL(imageBlob);
-            setImageUrl(imageUrl);
+            imgUrl = URL.createObjectURL(imageBlob);
+            setImageUrl(imgUrl);
 
             setFeedback(data.feedback);
-            console.log({ resumeUrl, imageUrl, feedback: data.feedback });
         };
 
         loadResume();
+        return () => {
+            if (pdfUrl) URL.revokeObjectURL(pdfUrl);
+            if (imgUrl) URL.revokeObjectURL(imgUrl);
+        };
     }, [id]);
 
     return (
@@ -52,30 +55,39 @@ const Resume = () => {
                     <span className="text-gray-800 text-sm font-semibold">Back to Homepage</span>
                 </Link>
             </nav>
-            <div className="flex flex-row w-full max-lg:flex-col-reverse">
-                <section className="feedback-section bg-[url('/images/bg-small.svg') bg-cover h-[100vh] sticky top-0 items-center justify-center">
+
+            <div className="resume-page-vertical">
+
+                {/* Colonna immagine */}
+                <section
+                    className="feedback-section"
+                    style={{ backgroundImage: "url('/images/bg-small.svg')", backgroundSize: "cover" }}
+                >
                     {imageUrl && resumeUrl && (
-                        <div className="animate-in fade-in duration-1000 gradient-border max-sm:m-0 h-[90%] max-wxl:h-fit w-fit">
+                        <div className="gradient-border resume-preview-wrapper animate-in fade-in">
                             <a href={resumeUrl} target="_blank" rel="noopener noreferrer">
                                 <img
                                     src={imageUrl}
-                                    className="w-full h-full object-contain rounded-2xl"
+                                    className="resume-preview-img"
                                     title="resume"
+                                    alt="Resume preview"
                                 />
                             </a>
                         </div>
                     )}
                 </section>
+
+                {/* Colonna feedback */}
                 <section className="feedback-section">
-                    <h2 className="text-4xl !text-black font-bold">Resume Review</h2>
+                    <h2 className="text-4xl !text-black font-bold text-center">Resume Review</h2>
                     {feedback ? (
-                        <div className="flex flex-col gap-8 animate-in fade-in duration-1000">
-                            <Summary feedback={feedback} />
+                        <div className="flex flex-col gap-8 animate-in fade-in duration-1000 w-full max-w-xl">
+                            <Summary score={feedback.overallScore} feedback={feedback} />
                             <ATS score={feedback.ATS.score || 0} suggestions={feedback.ATS.tips || []} />
                             <Details feedback={feedback} />
                         </div>
                     ) : (
-                        <img src="/images/resume-scan-2.gif" className="w-full" />
+                        <img src="/images/resume-scan-2.gif" className="w-full max-w-md" />
                     )}
                 </section>
             </div>

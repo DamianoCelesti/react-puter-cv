@@ -28,7 +28,7 @@ const Category = ({ title, score }) => {
 };
 
 const Summary = ({ score, feedback }) => {
-    const overall = to100(score);
+    const overall = to100(score ?? feedback?.overallScore ?? 0);
 
     return (
         <div className="resume-summary">
@@ -43,10 +43,10 @@ const Summary = ({ score, feedback }) => {
                 </div>
             </div>
 
-            <Category title="Tone & Style" score={feedback.toneAndStyle.score} />
-            <Category title="Content" score={feedback.content.score} />
-            <Category title="Structure" score={feedback.structure.score} />
-            <Category title="Skills" score={feedback.skills.score} />
+            <Category title="Tone & Style" score={feedback?.toneAndStyle?.score ?? 0} />
+            <Category title="Content" score={feedback?.content?.score ?? 0} />
+            <Category title="Structure" score={feedback?.structure?.score ?? 0} />
+            <Category title="Skills" score={feedback?.skills?.score ?? 0} />
         </div>
     );
 };
