@@ -11,18 +11,34 @@ export default function Home() {
 
   useEffect(() => {
     if (!auth.isAuthenticated) navigate("/auth?next=/");
-  }, [auth.isAuthenticated]);
+  }, [auth.isAuthenticated, navigate]);
 
   useEffect(() => {
     const loadResumes = async () => {
       setLoadingResumes(true);
-      const resumes = await kv.list("resume:*", true);
-      const parsedResumes = resumes?.map((resume) => JSON.parse(resume.value));
-      setResumes(parsedResumes || []);
-      setLoadingResumes(false);
+      try {
+        const entries = await kv.list("resume:*", true);
+        const parsed = (entries || [])
+          .map((r) => {
+            try {
+              const obj = JSON.parse(r.value);
+              // pulizia eventuale di flag temporanei
+              if (obj?.__broken) delete obj.__broken;
+              return obj;
+            } catch {
+              return null;
+            }
+          })
+          .filter(Boolean);
+
+        setResumes(parsed);
+      } finally {
+        setLoadingResumes(false);
+      }
     };
+
     loadResumes();
-  }, []);
+  }, [kv]);
 
   return (
     <main className="home">
@@ -35,7 +51,6 @@ export default function Home() {
             <h2>Review your submissions and check AI-powered feedback.</h2>
           )}
         </div>
-
 
         <div className="new-review-btn-box">
           <Link to="/upload" className="primary-button">

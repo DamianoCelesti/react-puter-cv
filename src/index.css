@@ -206,6 +206,7 @@ textarea:focus {
   max-width: 1800px;
 }
 
+/* CARD principale */
 .resume-card {
   display: flex;
   flex-direction: column;
@@ -216,14 +217,30 @@ textarea:focus {
   padding: 1rem;
   width: 380px;
   min-height: 550px;
-  box-shadow: 0 6px 30px rgba(0, 0, 0, .05);
-  transition: transform .3s ease;
+
+  /* --- Bordo e cornice sfocata --- */
+  border: 2px solid #030405;
+  box-shadow:
+    0 0 10px rgba(0, 0, 0, 0.08),
+    0 6px 30px rgba(0, 0, 0, 0.05);
+
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
 }
 
+/* Hover */
 .resume-card:hover {
   transform: translateY(-5px);
+  border-color: #1e293b;
+  box-shadow:
+    0 0 20px rgba(0, 0, 0, 0.15),
+    0 8px 40px rgba(0, 0, 0, 0.1);
 }
 
+/* Header della card */
 .resume-card-header {
   display: flex;
   justify-content: space-between;
@@ -835,7 +852,7 @@ textarea:focus {
   color: #fff;
 }
 
-/* --- Piccoli extra --- */
+/* --- extra --- */
 .dark .resume-nav .text-sm {
   color: #cfd6ec;
 }
@@ -843,6 +860,85 @@ textarea:focus {
 .dark .back-button img {
   filter: brightness(0) invert(1);
 }
+
+
+
+/* Link della card: niente underline, colore ereditato */
+.resume-card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Box info card */
+.resume-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Anteprima immagine */
+.resume-card__image {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 12px;
+}
+
+/* Placeholder se manca l'immagine */
+.resume-card__placeholder {
+  width: 100%;
+  height: 350px;
+  border-radius: 12px;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+}
+
+/* Titolo e sottotitolo */
+.resume-card__title {
+  margin: 0 0 4px;
+  color: #111827;
+  font-weight: 700;
+}
+
+.resume-card__subtitle {
+  margin: 0 0 8px;
+  color: #6b7280;
+}
+
+/* Riga dei punteggi */
+.resume-card__metrics {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Titolo/sottotitolo in dark */
+.dark .resume-card__title {
+  color: #f1f5f9;
+
+}
+
+.dark .resume-card__subtitle {
+  color: #cbd5e1;
+
+}
+
+
+.dark .resume-card__placeholder {
+  background: #0f1527;
+  color: #cbd5e1;
+}
+
+
+.dark .resume-card__image {
+  border-radius: 12px;
+
+}
+
 
 
 @media (max-width: 1024px) {
