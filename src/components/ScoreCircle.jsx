@@ -1,5 +1,3 @@
-import React from "react";
-
 const ScoreCircle = ({ score }) => {
     const circumference = 2 * Math.PI * 45;
     const offset = circumference - (score / 100) * circumference;
